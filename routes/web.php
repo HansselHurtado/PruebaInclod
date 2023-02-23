@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth'])->group( function() {
+    Route::get('doc-document',         \App\Http\Livewire\DocDocumentController::class)->name('doc-document');
+});
