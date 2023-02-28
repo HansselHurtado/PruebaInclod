@@ -91,17 +91,33 @@
         // let url = location.host;
 
         window.livewire.on('msgok', msgOK => {
-            toastr.success(msgOK, "info");
+            console.log("#hll "+msgOK)
+
+            // toastr.success(msgOK, "info");
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: msgOK,
+                showConfirmButton: false,
+                timer: 1500
+            })
         });
 
         window.livewire.on('msg-error', msgError => {
-            toastr.error(msgError, "error");
+            // toastr.error(msgError, "error");
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: msgError,
+                showConfirmButton: false,
+                timer: 1500
+            })
         });
 
         window.livewire.on('modalsClosed', id => {
             console.log("#"+id)
 
-            $('#'+id).modal('hide');
+            $('#doc-component').modal('hide');
         });
 
     </script>

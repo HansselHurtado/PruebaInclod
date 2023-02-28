@@ -33,6 +33,12 @@ class DocDocumento extends Model
     {
         return $query->where('doc_nombre','like', '%'.$search.'%')
             ->orWhere('doc_codigo','like', '%'.$search.'%')
-            ->orWhere('doc_contenido','like', '%'.$search.'%');
+            ->orWhere('doc_contenido','like', '%'.$search.'%')
+            ->orWhereHas('tipTipoDoc', function ($query) use ($search) {
+                $query->where('tip_nombre', 'like', '%'.$search.'%');
+            })
+            ->orWhereHas('proProces', function ($query) use ($search) {
+                $query->where('pro_nombre', 'like', '%'.$search.'%');
+            });
     }
 }

@@ -42,7 +42,6 @@ class DocDocumentController extends Component
 
     public function StoreOrUpdate($action)
     {
-        //dd($this->name);
         $this->validate([
             'name'                  => 'bail|required|min:3|max:20|string',
             'content'               => 'bail|required|string|min:3|max:255',
@@ -51,22 +50,31 @@ class DocDocumentController extends Component
         ]
         );
 
+
+        if ($this->selected_id) {
+            $updateOrCreate = 'actualizado';
+            $id             = DocDocumento::find($this->selected_id)['id'];
+        }else{
+            $updateOrCreate = 'creado';
+            $id             = DocDocumento::latest('id')->first();
+            $id             = $id ? $id['id']+1: 1;
+        }
+
+        $type   = TipTipoDoc::find($this->type)['tip_prefijo'];
+        $proces = ProProceso::find($this->process)['pro_prefijo'];
+        $code   = $type.'-'.$proces.'-'.$id;
+
         $find = [
             'id'  => $this->selected_id,
         ];
         $data = [
             'doc_nombre'                => $this->name,
-            'doc_codigo'                => '665+65+',
+            'doc_codigo'                => $code,
             'doc_contenido'             => $this->content,
             'doc_id_tipo'               => $this->type,
             'doc_id_proceso'            => $this->process,
         ];
 
-        if ($this->selected_id) {
-            $updateOrCreate = 'actualizado';
-        }else{
-            $updateOrCreate = 'creado';
-        }
 
         $docDocument = DocDocumento::updateOrCreate($find, $data);
 
@@ -112,9 +120,9 @@ class DocDocumentController extends Component
     protected $listeners = ['handleDelete'];
 
 
-    public function handleDelete(DocDocumento $docDocumento, $action ){
+    public function handleDelete(DocDocumento $docDocumento, $action){
         $docDocumento->delete();
-        $this->emit('msgok','Registro '.$docDocumento->doc_nombre.', ha sido eliminado');
+        $this->emit('msgok','El regitro ha sido eliminado');
         $this->handleReset($action);
     }
 }

@@ -4,10 +4,11 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            @if(empty($docDocuments))
+            @if($docDocuments->count() == 0)
                 <h2>NO HAY REGISTRO CREADO</h2>
                 <hr>
             @else
+                @include('common.search')
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                     <tr>
