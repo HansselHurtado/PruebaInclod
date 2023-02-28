@@ -12,9 +12,14 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/toastr.css') }}">
+    <link href="{{ asset('assets/css/toastr.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <!-- Custom styles for this template-->
+
+    @livewireStyles
 </head>
 <body>
     <div id="app">
@@ -40,12 +45,6 @@
                             @if (Route::has('login'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                </li>
-                            @endif
-
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -76,5 +75,35 @@
             @yield('content')
         </main>
     </div>
+
+    <script type="text/javascript" src="{!! asset('vendor/jquery/jquery.min.js') !!}"></script>
+    <script type="text/javascript" src="{!! asset('vendor/bootstrap/js/bootstrap.bundle.min.js') !!}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script type="text/javascript" src="{!! asset('vendor/jquery-easing/jquery.easing.min.js') !!}"></script>
+    <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
+
+    @yield('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @livewireScripts
+    <script>
+        // let url = location.host;
+
+        window.livewire.on('msgok', msgOK => {
+            toastr.success(msgOK, "info");
+        });
+
+        window.livewire.on('msg-error', msgError => {
+            toastr.error(msgError, "error");
+        });
+
+        window.livewire.on('modalsClosed', id => {
+            console.log("#"+id)
+
+            $('#'+id).modal('hide');
+        });
+
+    </script>
 </body>
 </html>

@@ -20,12 +20,12 @@ class DocDocumento extends Model
     ];
 
 
-    public function tipTipoDocs() {
-        return $this->belongsTo(TipTipoDoc::class);
+    public function tipTipoDoc() {
+        return $this->belongsTo(TipTipoDoc::class, 'doc_id_tipo');
     }
 
-    public function proProcesos() {
-        return $this->belongsTo(ProProceso::class);
+    public function proProces() {
+        return $this->belongsTo(ProProceso::class, 'doc_id_proceso');
     }
 
     // scope
